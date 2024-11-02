@@ -1,0 +1,24 @@
+From 6937cef7a27e68165884ae039f2c860726cb9542 Mon Sep 17 00:00:00 2001
+From: ItsAMetric <rachel.mey1983@gmail.com>
+Date: Sat, 2 Nov 2024 12:43:32 -0700
+Subject: [PATCH] JSON
+
+---
+ .devcontainer/devcontainer.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.devcontainer/devcontainer.json b/.devcontainer/devcontainer.json
+index 486e9d9..fb48554 100644
+--- a/.devcontainer/devcontainer.json
++++ b/.devcontainer/devcontainer.json
+@@ -1,6 +1,6 @@
+ // See https://containers.dev/implementors/json_reference/ for configuration reference
+ {
+-	"name": "Untitled Node.js project",
++	"name": "IT120.js project",
+ 	"build": {
+ 		"dockerfile": "Dockerfile"
+ 	},
+-- 
+2.46.2.windows.1
+
