@@ -1,0 +1,31 @@
+[gui]
+	pruneduringfetch = true
+	matchtrackingbranch = true
+[core]
+	editor = \"C:/Users/Rachel School/AppData/Local/Programs/Microsoft VS Code/code.exe\" --new-window --wait
+	autocrlf = true
+[user]
+	name = itsametric
+	email = rachel.mey1983@gmail.com
+[diff]
+	guitool = vscode
+[difftool "vscode"]
+	path = C:/Users/Rachel School/AppData/Local/Programs/Microsoft VS Code/Code.exe
+	cmd = \"C:/Users/Rachel School/AppData/Local/Programs/Microsoft VS Code/Code.exe\" --new-window --wait --diff \"$LOCAL\" \"$REMOTE\"
+[merge]
+	guitool = vscode
+[mergetool "vscode"]
+	path = C:/Users/Rachel School/AppData/Local/Programs/Microsoft VS Code/Code.exe
+	cmd = \"C:/Users/Rachel School/AppData/Local/Programs/Microsoft VS Code/Code.exe\" --new-window --wait --merge \"$REMOTE\" \"$LOCAL\" \"$BASE\" \"$MERGED\"
+[pull]
+	rebase = true
+[fetch]
+	prune = true
+[rebase]
+	autoStash = true
+	autosquash = false
+	updateRefs = true
+[commit]
+	template = C:\\Users\\Rachel School\\OneDrive - Seattle Colleges\\Documents\\GitHub\\IT120\\.vscode\\gitpath.txt
+[safe]
+	directory = S:/
