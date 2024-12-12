@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Kit Transue" />
+  <title>Data Dependency</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">
+
+html {
+font-size: 100%;
+overflow-y: scroll;
+-webkit-text-size-adjust: 100%;
+-ms-text-size-adjust: 100%;
+}
+body {
+color: #444;
+font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+font-size: 12px;
+line-height: 1.7;
+padding: 1em;
+margin: auto;
+max-width: 42em;
+background: #fefefe;
+}
+a {
+color: #0645ad;
+text-decoration: none;
+}
+a:visited {
+color: #0b0080;
+}
+a:hover {
+color: #06e;
+}
+a:active {
+color: #faa700;
+}
+a:focus {
+outline: thin dotted;
+}
+*::-moz-selection {
+background: rgba(255, 255, 0, 0.3);
+color: #000;
+}
+*::selection {
+background: rgba(255, 255, 0, 0.3);
+color: #000;
+}
+a::-moz-selection {
+background: rgba(255, 255, 0, 0.3);
+color: #0645ad;
+}
+a::selection {
+background: rgba(255, 255, 0, 0.3);
+color: #0645ad;
+}
+p {
+margin: 1em 0;
+}
+img {
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+color: #111;
+line-height: 125%;
+margin-top: 2em;
+font-weight: normal;
+}
+h4, h5, h6 {
+font-weight: bold;
+}
+h1 {
+font-size: 2.5em;
+}
+h2 {
+font-size: 2em;
+}
+h3 {
+font-size: 1.5em;
+}
+h4 {
+font-size: 1.2em;
+}
+h5 {
+font-size: 1em;
+}
+h6 {
+font-size: 0.9em;
+}
+blockquote {
+color: #666666;
+margin: 0;
+padding-left: 3em;
+border-left: 0.5em #EEE solid;
+}
+hr {
+display: block;
+height: 2px;
+border: 0;
+border-top: 1px solid #aaa;
+border-bottom: 1px solid #eee;
+margin: 1em 0;
+padding: 0;
+}
+pre, code, kbd, samp {
+color: #000;
+font-family: monospace, monospace;
+_font-family: 'courier new', monospace;
+font-size: 0.98em;
+}
+pre {
+white-space: pre;
+white-space: pre-wrap;
+word-wrap: break-word;
+}
+b, strong {
+font-weight: bold;
+}
+dfn {
+font-style: italic;
+}
+ins {
+background: #ff9;
+color: #000;
+text-decoration: none;
+}
+mark {
+background: #ff0;
+color: #000;
+font-style: italic;
+font-weight: bold;
+}
+sub, sup {
+font-size: 75%;
+line-height: 0;
+position: relative;
+vertical-align: baseline;
+}
+sup {
+top: -0.5em;
+}
+sub {
+bottom: -0.25em;
+}
+ul, ol {
+margin: 1em 0;
+padding: 0 0 0 2em;
+}
+li p:last-child {
+margin-bottom: 0;
+}
+ul ul, ol ol {
+margin: .3em 0;
+}
+dl {
+margin-bottom: 1em;
+}
+dt {
+font-weight: bold;
+margin-bottom: .8em;
+}
+dd {
+margin: 0 0 .8em 2em;
+}
+dd:last-child {
+margin-bottom: 0;
+}
+img {
+border: 0;
+-ms-interpolation-mode: bicubic;
+vertical-align: middle;
+}
+figure {
+display: block;
+text-align: center;
+margin: 1em 0;
+}
+figure img {
+border: none;
+margin: 0 auto;
+}
+figcaption {
+font-size: 0.8em;
+font-style: italic;
+margin: 0 0 .8em;
+}
+table {
+margin-bottom: 2em;
+border-bottom: 1px solid #ddd;
+border-right: 1px solid #ddd;
+border-spacing: 0;
+border-collapse: collapse;
+}
+table th {
+padding: .2em 1em;
+background-color: #eee;
+border-top: 1px solid #ddd;
+border-left: 1px solid #ddd;
+}
+table td {
+padding: .2em 1em;
+border-top: 1px solid #ddd;
+border-left: 1px solid #ddd;
+vertical-align: top;
+}
+.author {
+font-size: 1.2em;
+text-align: center;
+}
+@media only screen and (min-width: 480px) {
+body {
+font-size: 14px;
+}
+}
+@media only screen and (min-width: 768px) {
+body {
+font-size: 16px;
+}
+}
+@media print {
+* {
+background: transparent !important;
+color: black !important;
+filter: none !important;
+-ms-filter: none !important;
+}
+body {
+font-size: 12pt;
+max-width: 100%;
+}
+a, a:visited {
+text-decoration: underline;
+}
+hr {
+height: 1px;
+border: 0;
+border-bottom: 1px solid black;
+}
+a[href]:after {
+content: " (" attr(href) ")";
+}
+abbr[title]:after {
+content: " (" attr(title) ")";
+}
+.ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+content: "";
+}
+pre, blockquote {
+border: 1px solid #999;
+padding-right: 1em;
+page-break-inside: avoid;
+}
+tr, img {
+page-break-inside: avoid;
+}
+img {
+max-width: 100% !important;
+}
+@page :left {
+margin: 15mm 20mm 15mm 10mm;
+}
+@page :right {
+margin: 15mm 10mm 15mm 20mm;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3 {
+page-break-after: avoid;
+}
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Data Dependency</h1>
+<p class="author">Kit Transue</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#data-dependency" id="toc-data-dependency">Data
+Dependency</a>
+<ul>
+<li><a href="#dependency-and-determinant" id="toc-dependency-and-determinant">Dependency and Determinant</a>
+<ul>
+<li><a href="#logic" id="toc-logic">Logic</a></li>
+<li><a href="#statistics" id="toc-statistics">Statistics</a></li>
+<li><a href="#functional-model" id="toc-functional-model">Functional
+Model</a></li>
+<li><a href="#describinganswering" id="toc-describinganswering">Describing/Answering</a></li>
+</ul></li>
+<li><a href="#examples" id="toc-examples">Examples</a>
+<ul>
+<li><a href="#book-and-author" id="toc-book-and-author">Book and
+author</a></li>
+<li><a href="#totally-unrelated" id="toc-totally-unrelated">Totally
+unrelated</a></li>
+</ul></li>
+<li><a href="#in-a-database" id="toc-in-a-database">In a
+Database</a></li>
+<li><a href="#transitive-dependency" id="toc-transitive-dependency">Transitive Dependency</a>
+<ul>
+<li><a href="#transitive-example" id="toc-transitive-example">Transitive
+Example</a></li>
+<li><a href="#transitive-dependency-role-in-normalization" id="toc-transitive-dependency-role-in-normalization">Transitive
+Dependency Role in Normalization</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="data-dependency">Data Dependency</h1>
+<p>To understand the technical definitions of the Second and Third
+Normal Forms, is necessary to have a good feel for what a data
+dependency is.</p>
+<p>“Functional Dependence” describes how data values influence other
+data values.</p>
+<h2 id="dependency-and-determinant">Dependency and Determinant</h2>
+<p>Dependency studies “causal” or “knowable” relationships between
+values. If values are related, then one is usually the “determinant”:
+meaning that if you know that value then you know the other (the
+“dependent”). Having the determinant value determines the other.</p>
+<h3 id="logic">Logic</h3>
+<p>A -&gt; B (“A implies B”).</p>
+<p>If you have A (the determinant). then you know B (the dependent). The
+other direction doesn’t work: if you have B, you might or might not have
+A.</p>
+<h3 id="statistics">Statistics</h3>
+<p>In statistics, correlation suggests and causation shows a dependence
+between two values.</p>
+<p>The harder-to-prove “causation” is like dependence: if the cause
+happens (the determinant), then you get the effect (you see the
+dependent data).</p>
+<h3 id="functional-model">Functional Model</h3>
+<p>In a functional model where a value is calculated, the calculated
+value is “dependent on” an input value if that input value can
+contribute to/influence the calculation.</p>
+<p>y = f(a, b, c) = a * 2 + b</p>
+<ul>
+<li>y depends on a and b, but not on c</li>
+<li>if you know a and b, you know y</li>
+<li>if you know y, you do not know a or b</li>
+<li>c never changes y, so y is not dependent on c</li>
+</ul>
+<h3 id="describinganswering">Describing/Answering</h3>
+<p>The relationship between dependent data and its determinant can be
+seen as descriptions of a subject.</p>
+<p>The determinant identifies the subject. The dependent data answers
+questions for more description about the subject:</p>
+<ul>
+<li>Determinant/Key attribute: Instructor</li>
+<li>Dependent/Describing attribute: favorite color</li>
+</ul>
+<p>For a given instance:</p>
+<ul>
+<li>Subject/Determinant: Kit</li>
+<li>Answer/Dependent datum: pink</li>
+</ul>
+<!--
+### Brain Teaser
+
+Data dependency can be like a brain teaser:
+
+- the task is to fill in some value
+- you assume you have access to knowledge in the world
+- you are given some information to start with
+
+If you can be sure you have found the right value, then that value is
+dependent on the information you were given.
+
+Effective questions often point to/fill in the determinant: if you know
+that value, then you can fill in your dependent value.
+
+Questions about dependent values are often unproductive.
+
+"Dependent on X" == "can be determined if you know what X is"
+-->
+<h2 id="examples">Examples</h2>
+<h3 id="book-and-author">Book and author</h3>
+<p>“I am reading ‘The Color Purple’”; who is the author?” A: Alice
+Walker. The data “book author” is “dependent on” the book. If we know
+the book, we can find the authors.</p>
+<p>“I am reading a book by Stephen King; do you know the book?” A: could
+be any number of books written by Stephen King; knowing the author isn’t
+enough to know which one. Book is not dependent on author.</p>
+<h3 id="totally-unrelated">Totally unrelated</h3>
+<p>“I had eggs for breakfast; what color is the bicycle?” Cannot say.
+The color of the bicycle is not dependent on what I have for
+breakfast.</p>
+<p>“The bicycle is blue; what did I have for breakfast?” Cannot say.
+Breakfast is not dependent on bicycle color.</p>
+<h2 id="in-a-database">In a Database</h2>
+<p>Determinant data helps identify a row: it is the key or part of a
+key.</p>
+<p>Dependent data adds description to the row. Description is what makes
+a database rich and useful.</p>
+<p>Attributes should have one of two roles:</p>
+<ul>
+<li>part of key (to identify the entity/subject row)</li>
+<li>add description to the row</li>
+</ul>
+<h2 id="transitive-dependency">Transitive Dependency</h2>
+<p>“Transitively Dependent” data is something that can be determined by
+a <em>chain</em> of reasoning–following dependent data that is also its
+own determinant for something else.</p>
+<p>In a well-normalized database, this involves following foreign key
+references to other entities and then taking data from those
+entities.</p>
+<h3 id="transitive-example">Transitive Example</h3>
+<p>If you know I teach at Seattle Central College, and you know Seattle
+Central College is in Seattle, then you know (through transitive
+reasoning) that I teach in Seattle.</p>
+<h3 id="transitive-dependency-role-in-normalization">Transitive
+Dependency Role in Normalization</h3>
+<p>Transitive dependencies inside a single table are a sign that the
+design has mixed two different entities in the single table.</p>
+</body>
+</html>

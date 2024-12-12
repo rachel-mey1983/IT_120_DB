@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Kit Transue" />
+  <title>Third Normal Form</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+} </style>
+  <style type="text/css">
+
+html {
+font-size: 100%;
+overflow-y: scroll;
+-webkit-text-size-adjust: 100%;
+-ms-text-size-adjust: 100%;
+}
+body {
+color: #444;
+font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+font-size: 12px;
+line-height: 1.7;
+padding: 1em;
+margin: auto;
+max-width: 42em;
+background: #fefefe;
+}
+a {
+color: #0645ad;
+text-decoration: none;
+}
+a:visited {
+color: #0b0080;
+}
+a:hover {
+color: #06e;
+}
+a:active {
+color: #faa700;
+}
+a:focus {
+outline: thin dotted;
+}
+*::-moz-selection {
+background: rgba(255, 255, 0, 0.3);
+color: #000;
+}
+*::selection {
+background: rgba(255, 255, 0, 0.3);
+color: #000;
+}
+a::-moz-selection {
+background: rgba(255, 255, 0, 0.3);
+color: #0645ad;
+}
+a::selection {
+background: rgba(255, 255, 0, 0.3);
+color: #0645ad;
+}
+p {
+margin: 1em 0;
+}
+img {
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+color: #111;
+line-height: 125%;
+margin-top: 2em;
+font-weight: normal;
+}
+h4, h5, h6 {
+font-weight: bold;
+}
+h1 {
+font-size: 2.5em;
+}
+h2 {
+font-size: 2em;
+}
+h3 {
+font-size: 1.5em;
+}
+h4 {
+font-size: 1.2em;
+}
+h5 {
+font-size: 1em;
+}
+h6 {
+font-size: 0.9em;
+}
+blockquote {
+color: #666666;
+margin: 0;
+padding-left: 3em;
+border-left: 0.5em #EEE solid;
+}
+hr {
+display: block;
+height: 2px;
+border: 0;
+border-top: 1px solid #aaa;
+border-bottom: 1px solid #eee;
+margin: 1em 0;
+padding: 0;
+}
+pre, code, kbd, samp {
+color: #000;
+font-family: monospace, monospace;
+_font-family: 'courier new', monospace;
+font-size: 0.98em;
+}
+pre {
+white-space: pre;
+white-space: pre-wrap;
+word-wrap: break-word;
+}
+b, strong {
+font-weight: bold;
+}
+dfn {
+font-style: italic;
+}
+ins {
+background: #ff9;
+color: #000;
+text-decoration: none;
+}
+mark {
+background: #ff0;
+color: #000;
+font-style: italic;
+font-weight: bold;
+}
+sub, sup {
+font-size: 75%;
+line-height: 0;
+position: relative;
+vertical-align: baseline;
+}
+sup {
+top: -0.5em;
+}
+sub {
+bottom: -0.25em;
+}
+ul, ol {
+margin: 1em 0;
+padding: 0 0 0 2em;
+}
+li p:last-child {
+margin-bottom: 0;
+}
+ul ul, ol ol {
+margin: .3em 0;
+}
+dl {
+margin-bottom: 1em;
+}
+dt {
+font-weight: bold;
+margin-bottom: .8em;
+}
+dd {
+margin: 0 0 .8em 2em;
+}
+dd:last-child {
+margin-bottom: 0;
+}
+img {
+border: 0;
+-ms-interpolation-mode: bicubic;
+vertical-align: middle;
+}
+figure {
+display: block;
+text-align: center;
+margin: 1em 0;
+}
+figure img {
+border: none;
+margin: 0 auto;
+}
+figcaption {
+font-size: 0.8em;
+font-style: italic;
+margin: 0 0 .8em;
+}
+table {
+margin-bottom: 2em;
+border-bottom: 1px solid #ddd;
+border-right: 1px solid #ddd;
+border-spacing: 0;
+border-collapse: collapse;
+}
+table th {
+padding: .2em 1em;
+background-color: #eee;
+border-top: 1px solid #ddd;
+border-left: 1px solid #ddd;
+}
+table td {
+padding: .2em 1em;
+border-top: 1px solid #ddd;
+border-left: 1px solid #ddd;
+vertical-align: top;
+}
+.author {
+font-size: 1.2em;
+text-align: center;
+}
+@media only screen and (min-width: 480px) {
+body {
+font-size: 14px;
+}
+}
+@media only screen and (min-width: 768px) {
+body {
+font-size: 16px;
+}
+}
+@media print {
+* {
+background: transparent !important;
+color: black !important;
+filter: none !important;
+-ms-filter: none !important;
+}
+body {
+font-size: 12pt;
+max-width: 100%;
+}
+a, a:visited {
+text-decoration: underline;
+}
+hr {
+height: 1px;
+border: 0;
+border-bottom: 1px solid black;
+}
+a[href]:after {
+content: " (" attr(href) ")";
+}
+abbr[title]:after {
+content: " (" attr(title) ")";
+}
+.ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+content: "";
+}
+pre, blockquote {
+border: 1px solid #999;
+padding-right: 1em;
+page-break-inside: avoid;
+}
+tr, img {
+page-break-inside: avoid;
+}
+img {
+max-width: 100% !important;
+}
+@page :left {
+margin: 15mm 20mm 15mm 10mm;
+}
+@page :right {
+margin: 15mm 10mm 15mm 20mm;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3 {
+page-break-after: avoid;
+}
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Third Normal Form</h1>
+<p class="author">Kit Transue</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#third-normal-form" id="toc-third-normal-form">Third Normal
+Form</a>
+<ul>
+<li><a href="#formal-definition" id="toc-formal-definition">Formal
+Definition</a>
+<ul>
+<li><a href="#transitive-dependence" id="toc-transitive-dependence">Transitive Dependence</a></li>
+<li><a href="#non-prime-attribute" id="toc-non-prime-attribute">Non-prime attribute</a></li>
+<li><a href="#recap" id="toc-recap">Recap</a></li>
+</ul></li>
+<li><a href="#meaning" id="toc-meaning">Meaning</a></li>
+<li><a href="#detection" id="toc-detection">Detection</a></li>
+<li><a href="#mitigation" id="toc-mitigation">Mitigation</a></li>
+<li><a href="#approach-and-goal" id="toc-approach-and-goal">Approach and
+Goal</a></li>
+<li><a href="#summary" id="toc-summary">Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="third-normal-form">Third Normal Form</h1>
+<p>Third Normal Form checks to make sure each attribute adds information
+about the entity, rather than reporting information that could be
+figured from knowledge of another attribute.</p>
+<p>Third Normal Form is similar to Second Normal Form in that it looks
+at functional dependencies. Where 2NF works to make sure attributes are
+dependent on all parts of the key, 3NF looks to avoid a functional
+dependency on a non-key attribute.</p>
+<h2 id="formal-definition">Formal Definition</h2>
+<p>“A relation R is in third normal form if it is in second normal form
+and every non-prime attribute of R is non-transitively dependent on each
+candidate key of R.”</p>
+<p><span class="citation" data-cites="codd1972further">(Codd 1972,
+49)</span></p>
+<h3 id="transitive-dependence">Transitive Dependence</h3>
+<h4 id="dependence">Dependence</h4>
+<p>Dependence simply means the output is determined by and sensitive to
+the input.</p>
+<p>Non-key attributes should be seen as dependent on the key. The value
+of a non-key attribute is basically the answer to “what is the
+(attribute) for (entity named by key)?” For example:</p>
+<ul>
+<li>what is Kit’s GPA?</li>
+<li>what is the hair color for Kit?</li>
+<li>does Kit need corrective lenses when driving?</li>
+<li>how tall is Kit?</li>
+</ul>
+<p>Note that when applied to parts of a natural key, the question
+becomes redundant or weird:</p>
+<ul>
+<li>what is Kit’s name?</li>
+</ul>
+<p>This is because the key attributes become part of the identification
+in the question.</p>
+<h4 id="adding-information-about-the-subject">Adding information about
+the subject?</h4>
+<p>Consider the attribute “can ride the children’s roller coaster.” For
+me the value of this attribute is “no.” (But it once was “yes”:
+attributes can change, as long as they aren’t part of the key.) Notice
+the attribute is not any kind of violation of 2NF: choose a different
+person–by basis of last name or first name or whatever might
+differentiate us–and the answer to the question “can this person ride
+the children’s roller coaster” may change. It is fully dependent on any
+candidate key.</p>
+<p>But does it feel like it adds information about me that we don’t
+already know? Assuming the algorithm is “you must not be this tall,” we
+can already figure the value from what we know about my height. There is
+no new information added by this attribute.</p>
+<h4 id="transitive-dependence-1">Transitive Dependence</h4>
+<svg id="svg_b3affeb982b73ad38b71" width="310pt" height="44pt" viewBox="0.00 0.00 309.50 44.00">
+<g id="svg_b3affeb982b73ad38b71_graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>G</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-40 305.5,-40 305.5,4 -4,4"></polygon>
+<!-- kit -->
+<g id="svg_b3affeb982b73ad38b71_node1" class="node">
+<title>kit</title>
+<polygon fill="none" stroke="black" points="54,-36 0,-36 0,0 54,0 54,-36"></polygon>
+<text text-anchor="middle" x="27" y="-12.95" font-family="Times,serif" font-size="14.00">kit</text>
+</g>
+<!-- height -->
+<g id="svg_b3affeb982b73ad38b71_node2" class="node">
+<title>height</title>
+<polygon fill="none" stroke="black" points="177.75,-36 123.75,-36 123.75,0 177.75,0 177.75,-36"></polygon>
+<text text-anchor="middle" x="150.75" y="-12.95" font-family="Times,serif" font-size="14.00">5&#39;11&quot;</text>
+</g>
+<!-- kit&#45;&gt;height -->
+<g id="svg_b3affeb982b73ad38b71_edge1" class="edge">
+<title>kit-&gt;height</title>
+<path fill="none" stroke="black" d="M54.42,-18C71.25,-18 93.32,-18 111.99,-18" />
+<polygon fill="black" stroke="black" points="111.87,-21.5 121.87,-18 111.87,-14.5 111.87,-21.5"></polygon>
+<text text-anchor="middle" x="88.88" y="-21.2" font-family="Times,serif" font-size="14.00">height</text>
+</g>
+<!-- no -->
+<g id="svg_b3affeb982b73ad38b71_node3" class="node">
+<title>no</title>
+<polygon fill="none" stroke="black" points="301.5,-36 247.5,-36 247.5,0 301.5,0 301.5,-36"></polygon>
+<text text-anchor="middle" x="274.5" y="-12.95" font-family="Times,serif" font-size="14.00">no</text>
+</g>
+<!-- height&#45;&gt;no -->
+<g id="svg_b3affeb982b73ad38b71_edge2" class="edge">
+<title>height-&gt;no</title>
+<path fill="none" stroke="black" d="M178.17,-18C195,-18 217.07,-18 235.74,-18" />
+<polygon fill="black" stroke="black" points="235.62,-21.5 245.62,-18 235.62,-14.5 235.62,-21.5"></polygon>
+<text text-anchor="middle" x="212.62" y="-21.2" font-family="Times,serif" font-size="14.00">policy</text>
+</g>
+</g>
+</svg>
+<p>The formal way of expressing this is that “can you ride this roller
+coaster” is functionally dependent on height. If you have height, you
+can give a value for “allowed.” In fact, you don’t have to know my name
+or who I am; only my height.</p>
+<p>This chain of reasoning–that I have a non-key attribute (height), and
+from knowing only this attribute, one can compute another attribute–is
+called a transitive dependency. Yes: whether I can go on a roller
+coaster depends on who I am, but it depends on how tall I am and then
+that is used in the roller coaster decision.</p>
+<h3 id="non-prime-attribute">Non-prime attribute</h3>
+<p>As in 2NF, this is an attribute that is not part of a candidate
+key.</p>
+<p>It is a descriptor of the entity, not something that identifies
+it.</p>
+<p>My height is a non-prime attribute.</p>
+<h3 id="recap">Recap</h3>
+<p>“A relation R is in third normal form if it is in second normal form
+and every non-prime attribute of R is non-transitively dependent on each
+candidate key of R.” –E.F.Codd</p>
+<p>A 3NF table cannot have a non-prime attribute that has a transitive
+dependence on an attribute that is not the key.</p>
+<p>If an attribute (assuming non-prime) can be determined using only the
+value of another non-prime attribute (a “transitive dependency”), the
+table is not in 3NF.</p>
+<h2 id="meaning">Meaning</h2>
+<p>An attribute is a value that describes, characterizes, or further
+refines its entity. It can be thought of as a “datum.”</p>
+<p>Key attributes identify the entity; non-key attributes help describe
+it more richly.</p>
+<p>If one attribute can be determined from another non-prime
+attribute–without direct input from the key–then it is not adding
+information about the entity. It is just a fact about the
+intermediate.</p>
+<p>Everywhere that intermediate value appears, the same value will be
+used for the end attribute. It is duplication and redundancy.</p>
+<h2 id="detection">Detection</h2>
+<p>Detection is very similar to 2NF: you look for values that can be
+filled in by knowing something that isn’t the whole key. With 2NF, you
+are looking for dependencies on a part of the key; with 3NF you are
+looking for dependencies on non-key attributes.</p>
+<h2 id="mitigation">Mitigation</h2>
+<p>Fixing 3NF problems is pretty easy. The attribute in the middle is
+probably a great key for a new table, and the transitive attribute
+should be moved to be an attribute of that new table.</p>
+<p>If an existing entity also uses that same middle attributes as a key,
+then you might be able to move the transitive attribute to that
+entity.</p>
+<h2 id="approach-and-goal">Approach and Goal</h2>
+<p>Fundamentally, the goal of Second Normal Form and Third Normal Form
+is to ensure attributes are directly enriching the subject of the row,
+and where they do not appear to meeting this directive, to explore if
+the attribute could be better applied to a different (possibly new)
+entity.</p>
+<p>The approach I suggest is:</p>
+<ul>
+<li>articulate the subject of the row (keys are a useful guide
+here)</li>
+<li>examine each attribute and make sure it is describing the subject
+(and not just a part of the subject)</li>
+<li>where attributes are found describing something that is not subject,
+consider making a new table/entity for that attribute to describe</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p>Attributes that describe non-key attributes should be moved to
+another table, making a many-to-one relation. The new table reduces data
+duplication.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-codd1972further" class="csl-entry" role="listitem">
+Codd, Edgar F. 1972. <span>“Further Normalization of the Data Base
+Relational Model.”</span> <em>Data Base Systems</em> 6: 33–64.
+</div>
+</div>
+</body>
+</html>

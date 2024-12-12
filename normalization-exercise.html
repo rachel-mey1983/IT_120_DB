@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Kit Transue" />
+  <title>Normalization Exercise</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">
+
+html {
+font-size: 100%;
+overflow-y: scroll;
+-webkit-text-size-adjust: 100%;
+-ms-text-size-adjust: 100%;
+}
+body {
+color: #444;
+font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+font-size: 12px;
+line-height: 1.7;
+padding: 1em;
+margin: auto;
+max-width: 42em;
+background: #fefefe;
+}
+a {
+color: #0645ad;
+text-decoration: none;
+}
+a:visited {
+color: #0b0080;
+}
+a:hover {
+color: #06e;
+}
+a:active {
+color: #faa700;
+}
+a:focus {
+outline: thin dotted;
+}
+*::-moz-selection {
+background: rgba(255, 255, 0, 0.3);
+color: #000;
+}
+*::selection {
+background: rgba(255, 255, 0, 0.3);
+color: #000;
+}
+a::-moz-selection {
+background: rgba(255, 255, 0, 0.3);
+color: #0645ad;
+}
+a::selection {
+background: rgba(255, 255, 0, 0.3);
+color: #0645ad;
+}
+p {
+margin: 1em 0;
+}
+img {
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+color: #111;
+line-height: 125%;
+margin-top: 2em;
+font-weight: normal;
+}
+h4, h5, h6 {
+font-weight: bold;
+}
+h1 {
+font-size: 2.5em;
+}
+h2 {
+font-size: 2em;
+}
+h3 {
+font-size: 1.5em;
+}
+h4 {
+font-size: 1.2em;
+}
+h5 {
+font-size: 1em;
+}
+h6 {
+font-size: 0.9em;
+}
+blockquote {
+color: #666666;
+margin: 0;
+padding-left: 3em;
+border-left: 0.5em #EEE solid;
+}
+hr {
+display: block;
+height: 2px;
+border: 0;
+border-top: 1px solid #aaa;
+border-bottom: 1px solid #eee;
+margin: 1em 0;
+padding: 0;
+}
+pre, code, kbd, samp {
+color: #000;
+font-family: monospace, monospace;
+_font-family: 'courier new', monospace;
+font-size: 0.98em;
+}
+pre {
+white-space: pre;
+white-space: pre-wrap;
+word-wrap: break-word;
+}
+b, strong {
+font-weight: bold;
+}
+dfn {
+font-style: italic;
+}
+ins {
+background: #ff9;
+color: #000;
+text-decoration: none;
+}
+mark {
+background: #ff0;
+color: #000;
+font-style: italic;
+font-weight: bold;
+}
+sub, sup {
+font-size: 75%;
+line-height: 0;
+position: relative;
+vertical-align: baseline;
+}
+sup {
+top: -0.5em;
+}
+sub {
+bottom: -0.25em;
+}
+ul, ol {
+margin: 1em 0;
+padding: 0 0 0 2em;
+}
+li p:last-child {
+margin-bottom: 0;
+}
+ul ul, ol ol {
+margin: .3em 0;
+}
+dl {
+margin-bottom: 1em;
+}
+dt {
+font-weight: bold;
+margin-bottom: .8em;
+}
+dd {
+margin: 0 0 .8em 2em;
+}
+dd:last-child {
+margin-bottom: 0;
+}
+img {
+border: 0;
+-ms-interpolation-mode: bicubic;
+vertical-align: middle;
+}
+figure {
+display: block;
+text-align: center;
+margin: 1em 0;
+}
+figure img {
+border: none;
+margin: 0 auto;
+}
+figcaption {
+font-size: 0.8em;
+font-style: italic;
+margin: 0 0 .8em;
+}
+table {
+margin-bottom: 2em;
+border-bottom: 1px solid #ddd;
+border-right: 1px solid #ddd;
+border-spacing: 0;
+border-collapse: collapse;
+}
+table th {
+padding: .2em 1em;
+background-color: #eee;
+border-top: 1px solid #ddd;
+border-left: 1px solid #ddd;
+}
+table td {
+padding: .2em 1em;
+border-top: 1px solid #ddd;
+border-left: 1px solid #ddd;
+vertical-align: top;
+}
+.author {
+font-size: 1.2em;
+text-align: center;
+}
+@media only screen and (min-width: 480px) {
+body {
+font-size: 14px;
+}
+}
+@media only screen and (min-width: 768px) {
+body {
+font-size: 16px;
+}
+}
+@media print {
+* {
+background: transparent !important;
+color: black !important;
+filter: none !important;
+-ms-filter: none !important;
+}
+body {
+font-size: 12pt;
+max-width: 100%;
+}
+a, a:visited {
+text-decoration: underline;
+}
+hr {
+height: 1px;
+border: 0;
+border-bottom: 1px solid black;
+}
+a[href]:after {
+content: " (" attr(href) ")";
+}
+abbr[title]:after {
+content: " (" attr(title) ")";
+}
+.ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+content: "";
+}
+pre, blockquote {
+border: 1px solid #999;
+padding-right: 1em;
+page-break-inside: avoid;
+}
+tr, img {
+page-break-inside: avoid;
+}
+img {
+max-width: 100% !important;
+}
+@page :left {
+margin: 15mm 20mm 15mm 10mm;
+}
+@page :right {
+margin: 15mm 10mm 15mm 20mm;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3 {
+page-break-after: avoid;
+}
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Normalization Exercise</h1>
+<p class="author">Kit Transue</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#normalization-exercise" id="toc-normalization-exercise">Normalization Exercise</a>
+<ul>
+<li><a href="#goal" id="toc-goal">Goal</a></li>
+<li><a href="#requirements" id="toc-requirements">Requirements</a></li>
+<li><a href="#design-to-fix" id="toc-design-to-fix">Design to fix</a>
+<ul>
+<li><a href="#analysis-questions" id="toc-analysis-questions">Analysis
+questions</a></li>
+</ul></li>
+<li><a href="#suggestions" id="toc-suggestions">Suggestions</a></li>
+<li><a href="#rubric" id="toc-rubric">Rubric</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="normalization-exercise">Normalization Exercise</h1>
+<p>Improve the provided Music design by applying tests and fixes for the
+first three normal forms.</p>
+<h2 id="goal">Goal</h2>
+<ul>
+<li>practice identifying and naming normal form violations</li>
+<li>use design to fix normal form violations</li>
+<li>represent a physical design in an ERD</li>
+</ul>
+<h2 id="requirements">Requirements</h2>
+<p>Submit: two files</p>
+<ul>
+<li>a text file report of your analysis</li>
+<li>a graphical ERD</li>
+</ul>
+<p>Your improved design should fix at least 5 normal form violations.
+(You should have at least 5 attributes that are now in a better entity
+or have been changed so they better fit the relational model.)</p>
+<p>Your report should include:
+<!-- FIXME: should this be a quiz? --></p>
+<ul>
+<li>the answer to “what is a natural key for Track?</li>
+<li>answers to questions about Playlist</li>
+<li>for each change you have made:
+<ul>
+<li>what entity/attribute(s) is a problem?</li>
+<li>what normal form are you fixing</li>
+</ul></li>
+</ul>
+<p>Your design must:</p>
+<ul>
+<li>be in ERD format</li>
+<li>show all link tables and PK/FK attributes used in relations
+(<strong>physical</strong> design)</li>
+<li>accurately show relation lines</li>
+</ul>
+<h2 id="design-to-fix">Design to fix</h2>
+<svg id="svg_11036b2718dfd3016dc7" role="img" class="drawio" width="763px" height="472px" viewBox="-0.5 -0.5 763 472"><defs><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-580-170-30-30-0"><rect x="580" y="170" width="30" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-616-170-144-30-0"><rect x="616" y="170" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-616-200-144-30-0"><rect x="616" y="200" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-616-230-144-30-0"><rect x="616" y="230" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-580-260-30-30-0"><rect x="580" y="260" width="30" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-616-260-144-30-0"><rect x="616" y="260" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-580-290-30-30-0"><rect x="580" y="290" width="30" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-616-290-144-30-0"><rect x="616" y="290" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-580-320-30-30-0"><rect x="580" y="320" width="30" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-616-320-144-30-0"><rect x="616" y="320" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-580-350-30-30-0"><rect x="580" y="350" width="30" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-616-350-144-30-0"><rect x="616" y="350" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-580-380-30-30-0"><rect x="580" y="380" width="30" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-616-380-144-30-0"><rect x="616" y="380" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-580-410-30-30-0"><rect x="580" y="410" width="30" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-616-410-144-30-0"><rect x="616" y="410" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-580-440-30-30-0"><rect x="580" y="440" width="30" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-616-440-144-30-0"><rect x="616" y="440" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-245-170-30-30-0"><rect x="245" y="170" width="30" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-281-170-144-30-0"><rect x="281" y="170" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-281-200-144-30-0"><rect x="281" y="200" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-245-230-30-30-0"><rect x="245" y="230" width="30" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-281-230-144-30-0"><rect x="281" y="230" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-281-260-144-30-0"><rect x="281" y="260" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-281-290-144-30-0"><rect x="281" y="290" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-281-320-144-30-0"><rect x="281" y="320" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-281-350-144-30-0"><rect x="281" y="350" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-281-380-144-30-0"><rect x="281" y="380" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-281-410-144-30-0"><rect x="281" y="410" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-281-440-144-30-0"><rect x="281" y="440" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-0-230-30-30-0"><rect x="0" y="230" width="30" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-36-230-144-30-0"><rect x="36" y="230" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-36-260-144-30-0"><rect x="36" y="260" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-36-290-144-30-0"><rect x="36" y="290" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-36-320-144-30-0"><rect x="36" y="320" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-36-350-144-30-0"><rect x="36" y="350" width="144" height="30" /></clipPath><clipPath id="svg_11036b2718dfd3016dc7_mx-clip-36-380-144-30-0"><rect x="36" y="380" width="144" height="30" /></clipPath></defs><g><g><path d="M 580.01 170 L 580.01 140 L 760.01 140 L 760.01 170" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /><path d="M 580.01 170 L 580.01 470 L 760.01 470 L 760.01 170" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="none" /><path d="M 580.01 170 L 760.01 170" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="none" /><path d="M 610.01 170 L 610.01 200 L 610.01 230 L 610.01 260 L 610.01 290 L 610.01 320 L 610.01 350 L 610.01 380 L 610.01 410 L 610.01 440 L 610.01 470" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="none" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="11.000110000000001px"><text x="669.51" y="159">Playlist</text></g></g><g><path d="M 580.01 170 M 760.01 170 M 760.01 200 L 580.01 200" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="none" /></g><g><rect x="580.01" y="170" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 580.01 170 M 610.01 170 M 610.01 200 M 580.01 200" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" font-weight="bold" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-580-170-30-30-0)" text-anchor="middle" font-size="11.000110000000001px"><text x="594.51" y="189">PK</text></g></g><g><rect x="610.01" y="170" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 610.01 170 M 760.01 170 M 760.01 200 M 610.01 200" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" font-weight="bold" text-decoration="underline" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-616-170-144-30-0)" font-size="11.000110000000001px"><text x="617.51" y="189">UniqueID</text></g></g><g></g><g><rect x="580.01" y="200" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 580.01 200 M 610.01 200 M 610.01 230 M 580.01 230" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="610.01" y="200" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 610.01 200 M 760.01 200 M 760.01 230 M 610.01 230" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-616-200-144-30-0)" font-size="11.000110000000001px"><text x="617.51" y="219">Name</text></g></g><g></g><g><rect x="580.01" y="230" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 580.01 230 M 610.01 230 M 610.01 260 M 580.01 260" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="610.01" y="230" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 610.01 230 M 760.01 230 M 760.01 260 M 610.01 260" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-616-230-144-30-0)" font-size="11.000110000000001px"><text x="617.51" y="249">Play Count</text></g></g><g></g><g><rect x="580.01" y="260" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 580.01 260 M 610.01 260 M 610.01 290 M 580.01 290" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-580-260-30-30-0)" text-anchor="middle" font-size="11.000110000000001px"><text x="594.51" y="279">FK</text></g></g><g><rect x="610.01" y="260" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 610.01 260 M 760.01 260 M 760.01 290 M 610.01 290" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-616-260-144-30-0)" font-size="11.000110000000001px"><text x="617.51" y="279">Song 1</text></g></g><g></g><g><rect x="580.01" y="290" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 580.01 290 M 610.01 290 M 610.01 320 M 580.01 320" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-580-290-30-30-0)" text-anchor="middle" font-size="11.000110000000001px"><text x="594.51" y="309">FK</text></g></g><g><rect x="610.01" y="290" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 610.01 290 M 760.01 290 M 760.01 320 M 610.01 320" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-616-290-144-30-0)" font-size="11.000110000000001px"><text x="617.51" y="309">Song 2</text></g></g><g></g><g><rect x="580.01" y="320" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 580.01 320 M 610.01 320 M 610.01 350 M 580.01 350" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-580-320-30-30-0)" text-anchor="middle" font-size="11.000110000000001px"><text x="594.51" y="339">FK</text></g></g><g><rect x="610.01" y="320" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 610.01 320 M 760.01 320 M 760.01 350 M 610.01 350" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-616-320-144-30-0)" font-size="11.000110000000001px"><text x="617.51" y="339">Song 3</text></g></g><g></g><g><rect x="580.01" y="350" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 580.01 350 M 610.01 350 M 610.01 380 M 580.01 380" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-580-350-30-30-0)" text-anchor="middle" font-size="11.000110000000001px"><text x="594.51" y="369">FK</text></g></g><g><rect x="610.01" y="350" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 610.01 350 M 760.01 350 M 760.01 380 M 610.01 380" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-616-350-144-30-0)" font-size="11.000110000000001px"><text x="617.51" y="369">Song 4</text></g></g><g></g><g><rect x="580.01" y="380" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 580.01 380 M 610.01 380 M 610.01 410 M 580.01 410" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-580-380-30-30-0)" text-anchor="middle" font-size="11.000110000000001px"><text x="594.51" y="399">FK</text></g></g><g><rect x="610.01" y="380" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 610.01 380 M 760.01 380 M 760.01 410 M 610.01 410" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-616-380-144-30-0)" font-size="11.000110000000001px"><text x="617.51" y="399">Song 5</text></g></g><g></g><g><rect x="580.01" y="410" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 580.01 410 M 610.01 410 M 610.01 440 M 580.01 440" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-580-410-30-30-0)" text-anchor="middle" font-size="11.000110000000001px"><text x="594.51" y="429">FK</text></g></g><g><rect x="610.01" y="410" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 610.01 410 M 760.01 410 M 760.01 440 M 610.01 440" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-616-410-144-30-0)" font-size="11.000110000000001px"><text x="617.51" y="429">Song 6</text></g></g><g></g><g><rect x="580.01" y="440" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 580.01 440 M 610.01 440 M 610.01 470 M 580.01 470" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-580-440-30-30-0)" text-anchor="middle" font-size="11.000110000000001px"><text x="594.51" y="459">FK</text></g></g><g><rect x="610.01" y="440" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 610.01 440 M 760.01 440 M 760.01 470 M 610.01 470" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-616-440-144-30-0)" font-size="11.000110000000001px"><text x="617.51" y="459">Song 7</text></g></g><g><path d="M 245 170 L 245 140 L 425 140 L 425 170" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /><path d="M 245 170 L 245 470 L 425 470 L 425 170" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="none" /><path d="M 245 170 L 425 170" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="none" /><path d="M 275 170 L 275 200 L 275 230 L 275 260 L 275 290 L 275 320 L 275 350 L 275 380 L 275 410 L 275 440 L 275 470" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="none" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="11.000110000000001px"><text x="334.5" y="159">Track</text></g></g><g><path d="M 245 170 M 425 170 M 425 200 L 245 200" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="none" /></g><g><rect x="245" y="170" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 245 170 M 275 170 M 275 200 M 245 200" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" font-weight="bold" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-245-170-30-30-0)" text-anchor="middle" font-size="11.000110000000001px"><text x="259.5" y="189">PK</text></g></g><g><rect x="275" y="170" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 275 170 M 425 170 M 425 200 M 275 200" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" font-weight="bold" text-decoration="underline" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-281-170-144-30-0)" font-size="11.000110000000001px"><text x="282.5" y="189">UniqueID</text></g></g><g></g><g><rect x="245" y="200" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 245 200 M 275 200 M 275 230 M 245 230" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="275" y="200" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 275 200 M 425 200 M 425 230 M 275 230" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-281-200-144-30-0)" font-size="11.000110000000001px"><text x="282.5" y="219">Title</text></g></g><g></g><g><rect x="245" y="230" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 245 230 M 275 230 M 275 260 M 245 260" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-245-230-30-30-0)" text-anchor="middle" font-size="11.000110000000001px"><text x="259.5" y="249">FK</text></g></g><g><rect x="275" y="230" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 275 230 M 425 230 M 425 260 M 275 260" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-281-230-144-30-0)" font-size="11.000110000000001px"><text x="282.5" y="249">AlbumID</text></g></g><g></g><g><rect x="245" y="260" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 245 260 M 275 260 M 275 290 M 245 290" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="275" y="260" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 275 260 M 425 260 M 425 290 M 275 290" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-281-260-144-30-0)" font-size="11.000110000000001px"><text x="282.5" y="279">Track Number</text></g></g><g></g><g><rect x="245" y="290" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 245 290 M 275 290 M 275 320 M 245 320" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="275" y="290" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 275 290 M 425 290 M 425 320 M 275 320" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-281-290-144-30-0)" font-size="11.000110000000001px"><text x="282.5" y="309">Total Tracks</text></g></g><g></g><g><rect x="245" y="320" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 245 320 M 275 320 M 275 350 M 245 350" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="275" y="320" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 275 320 M 425 320 M 425 350 M 275 350" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-281-320-144-30-0)" font-size="11.000110000000001px"><text x="282.5" y="339">Year</text></g></g><g></g><g><rect x="245" y="350" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 245 350 M 275 350 M 275 380 M 245 380" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="275" y="350" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 275 350 M 425 350 M 425 380 M 275 380" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-281-350-144-30-0)" font-size="11.000110000000001px"><text x="282.5" y="369">Record Label</text></g></g><g></g><g><rect x="245" y="380" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 245 380 M 275 380 M 275 410 M 245 410" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="275" y="380" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 275 380 M 425 380 M 425 410 M 275 410" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-281-380-144-30-0)" font-size="11.000110000000001px"><text x="282.5" y="399">Vocalists</text></g></g><g></g><g><rect x="245" y="410" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 245 410 M 275 410 M 275 440 M 245 440" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="275" y="410" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 275 410 M 425 410 M 425 440 M 275 440" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-281-410-144-30-0)" font-size="11.000110000000001px"><text x="282.5" y="429">Instrumentalists</text></g></g><g></g><g><rect x="245" y="440" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 245 440 M 275 440 M 275 470 M 245 470" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="275" y="440" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 275 440 M 425 440 M 425 470 M 275 470" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-281-440-144-30-0)" font-size="11.000110000000001px"><text x="282.5" y="459">Writer</text></g></g><g><path d="M 425 185 L 445 185 Q 455 185 462.26 191.88 L 542.75 268.13 Q 550.01 275 560.01 275 L 580.01 275" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke" /><path d="M 429 181 L 429 189" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /><ellipse cx="568.01" cy="275" rx="3.00003" ry="3.00003" fill="#ffffff" stroke="rgb(0, 0, 0)" pointer-events="all"></ellipse><path d="M 580.01 271 L 572.01 275 L 580.01 279" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /></g><g><path d="M 425 185 L 445 185 Q 455 185 461.21 192.84 L 543.8 297.16 Q 550.01 305 560.01 305 L 580.01 305" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke" /><path d="M 429 181 L 429 189" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /><ellipse cx="568.01" cy="305" rx="3.00003" ry="3.00003" fill="#ffffff" stroke="rgb(0, 0, 0)" pointer-events="all"></ellipse><path d="M 580.01 301 L 572.01 305 L 580.01 309" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /></g><g><path d="M 425 185 L 445 185 Q 455 185 460.36 193.45 L 544.65 326.56 Q 550.01 335 560.01 335 L 580.01 335" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke" /><path d="M 429 181 L 429 189" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /><ellipse cx="568.01" cy="335" rx="3.00003" ry="3.00003" fill="#ffffff" stroke="rgb(0, 0, 0)" pointer-events="all"></ellipse><path d="M 580.01 331 L 572.01 335 L 580.01 339" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /></g><g><path d="M 425 185 L 445 185 Q 455 185 459.67 193.85 L 545.34 356.16 Q 550.01 365 560.01 365 L 580.01 365" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke" /><path d="M 429 181 L 429 189" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /><ellipse cx="568.01" cy="365" rx="3.00003" ry="3.00003" fill="#ffffff" stroke="rgb(0, 0, 0)" pointer-events="all"></ellipse><path d="M 580.01 361 L 572.01 365 L 580.01 369" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /></g><g><path d="M 425 185 L 445 185 Q 455 185 459.13 194.11 L 545.88 385.89 Q 550.01 395 560.01 395 L 580.01 395" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke" /><path d="M 429 181 L 429 189" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /><ellipse cx="568.01" cy="395" rx="3.00003" ry="3.00003" fill="#ffffff" stroke="rgb(0, 0, 0)" pointer-events="all"></ellipse><path d="M 580.01 391 L 572.01 395 L 580.01 399" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /></g><g><path d="M 425 185 L 445 185 Q 455 185 458.69 194.3 L 546.32 415.71 Q 550.01 425 560.01 425 L 580.01 425" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke" /><path d="M 429 181 L 429 189" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /><ellipse cx="568.01" cy="425" rx="3.00003" ry="3.00003" fill="#ffffff" stroke="rgb(0, 0, 0)" pointer-events="all"></ellipse><path d="M 580.01 421 L 572.01 425 L 580.01 429" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /></g><g><path d="M 425 185 L 445 185 Q 455 185 458.32 194.44 L 546.69 445.57 Q 550.01 455 560.01 455 L 580.01 455" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke" /><path d="M 429 181 L 429 189" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /><ellipse cx="568.01" cy="455" rx="3.00003" ry="3.00003" fill="#ffffff" stroke="rgb(0, 0, 0)" pointer-events="all"></ellipse><path d="M 580.01 451 L 572.01 455 L 580.01 459" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /></g><g><path d="M 0 230 L 0 200 L 180 200 L 180 230" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /><path d="M 0 230 L 0 410 L 180 410 L 180 230" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="none" /><path d="M 0 230 L 180 230" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="none" /><path d="M 30 230 L 30 260 L 30 290 L 30 320 L 30 350 L 30 380 L 30 410" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="none" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="11.000110000000001px"><text x="89.5" y="219">Album/Release</text></g></g><g><path d="M 0 230 M 180 230 M 180 260 L 0 260" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="none" /></g><g><rect x="0" y="230" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 0 230 M 30 230 M 30 260 M 0 260" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" font-weight="bold" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-0-230-30-30-0)" text-anchor="middle" font-size="11.000110000000001px"><text x="14.5" y="249">PK</text></g></g><g><rect x="30" y="230" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 30 230 M 180 230 M 180 260 M 30 260" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" font-weight="bold" text-decoration="underline" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-36-230-144-30-0)" font-size="11.000110000000001px"><text x="37.5" y="249">UniqueID</text></g></g><g></g><g><rect x="0" y="260" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 0 260 M 30 260 M 30 290 M 0 290" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="30" y="260" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 30 260 M 180 260 M 180 290 M 30 290" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-36-260-144-30-0)" font-size="11.000110000000001px"><text x="37.5" y="279">Title</text></g></g><g></g><g><rect x="0" y="290" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 0 290 M 30 290 M 30 320 M 0 320" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="30" y="290" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 30 290 M 180 290 M 180 320 M 30 320" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-36-290-144-30-0)" font-size="11.000110000000001px"><text x="37.5" y="309">Genre 1</text></g></g><g></g><g><rect x="0" y="320" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 0 320 M 30 320 M 30 350 M 0 350" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="30" y="320" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 30 320 M 180 320 M 180 350 M 30 350" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-36-320-144-30-0)" font-size="11.000110000000001px"><text x="37.5" y="339">Sub-Genre 1</text></g></g><g></g><g><rect x="0" y="350" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 0 350 M 30 350 M 30 380 M 0 380" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="30" y="350" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 30 350 M 180 350 M 180 380 M 30 380" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-36-350-144-30-0)" font-size="11.000110000000001px"><text x="37.5" y="369">Genre 2</text></g></g><g></g><g><rect x="0" y="380" width="30" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 0 380 M 30 380 M 30 410 M 0 410" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="30" y="380" width="150" height="30" fill="none" stroke="none" pointer-events="all" /><path d="M 30 380 M 180 380 M 180 410 M 30 410" fill="none" stroke="rgb(0, 0, 0)" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all" /></g><g><g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#svg_11036b2718dfd3016dc7_mx-clip-36-380-144-30-0)" font-size="11.000110000000001px"><text x="37.5" y="399">Sub-Genre 2</text></g></g><g><path d="M 180 245 L 200 245 Q 210 245 212.5 245 L 213.75 245 Q 215 245 225 245 L 245 245" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke" /><path d="M 184 241 L 184 249" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /><ellipse cx="233" cy="245" rx="3.00003" ry="3.00003" fill="#ffffff" stroke="rgb(0, 0, 0)" pointer-events="all"></ellipse><path d="M 245 241 L 237 245 L 245 249" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" /></g><g><rect x="30" y="10" width="560.01" height="90" fill="none" stroke="none" pointer-events="all" /></g><g><g transform="translate(-0.5 -0.5)scale(1.00001)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-start; justify-content: unsafe flex-start; width: 552px; height: 1px; padding-top: 0px; margin-left: 35px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left; max-height: 100px; overflow: hidden;"><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><h1><span style="background-color: initial;">Music Catalog</span></h1><h1><span style="font-size: 11px; font-weight: 400;">Many Normal Form violations (1NF, 2NF, 3NF)</span></h1></div></div></div></foreignObject><text x="35" y="11" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="11px">Music Catalog...</text></switch></g></g></g></svg>
+<h3 id="analysis-questions">Analysis questions</h3>
+<p>Please answer these questions before starting on your changes:</p>
+<ul>
+<li>what attribute(s) form a natural key for Track? (A composite key is
+OK.)</li>
+<li>playlist questions:
+<ul>
+<li>what do you want the maximum number of songs/tracks in a playlist to
+be?</li>
+<li>do you want to let the user define an order to the playlist?</li>
+<li>do you want the user to put the same track in one playlist more than
+once?</li>
+</ul></li>
+</ul>
+<p>The above questions are required.</p>
+<h4 id="optional-analysis-questions">Optional Analysis Questions</h4>
+<p>Some changes you make to the Music database design may raise
+questions about what the customer (you, ideally!) wants. Feel free to
+think through to the best answer you can, record your thoughts, and then
+continue with your design.</p>
+<p>Some questions about the Music database might be:</p>
+<ul>
+<li>how do you handle Singles?</li>
+<li>how should genre work for a playlist?</li>
+<li>are there other contributors to a work than writers, vocalists, and
+instrumentalists?
+<ul>
+<li>how might someone use this information?</li>
+</ul></li>
+<li>what does “year” really mean?</li>
+<li>does it handle classical music well?</li>
+</ul>
+<h2 id="suggestions">Suggestions</h2>
+<ul>
+<li>check the meaning of your primary keys. PKs must be unique and
+non-null.</li>
+<li>take care to ensure accuracy of PK/FK relationship lines</li>
+<li>remember that Normalization is a design <strong>check</strong>: you
+should fix broken features, but it is not the time to add new
+features</li>
+</ul>
+<p>Note: the diagram points rely on ERD format; if your design is not in
+ERD format, 20 points are at risk. Please use the ERD format from class
+and examples.</p>
+<p>Note: remember to say in the text file which entities you have moved
+and what normal form violation caused you to move them. This makes the
+normal form framework work for you (by confirming your identification
+and suggesting a good fix), and it helps me see, understand, and give
+better credit for your change. I suggest you write this text
+<em>before</em> you change the diagram.</p>
+<h2 id="rubric">Rubric</h2>
+<p>This exercise is worth 90 points.</p>
+<p>Prologue questions, to be answered in text document (20 points total,
+from following:)</p>
+<ul>
+<li>8 points: what is a natural key for Track?</li>
+<li>4 points: what do you want the maximum items in a playlist to
+be?</li>
+<li>4 points: do you want to let the user define an order to the
+playlist?</li>
+<li>4 points: do you want the user to put the same track in one playlist
+more than once?</li>
+</ul>
+<p>Improvements, which should be recorded in the text document and shown
+in the Entity-Relation Diagram. Each improvement is scored by the
+following metric. (These sum to 14 points available per change. Five
+perfect improvements yields 70 points. You may make more than five
+fixes.)</p>
+<ul>
+<li>4 points: identify violation (describe in text file)</li>
+<li>4 points: move attributes to the correct table</li>
+<li>3 points: key or many-to-many correct in entity</li>
+<li>2 points: foreign key correctly identified in entity</li>
+<li>1 points: ERD lines match FK/PK</li>
+</ul>
+</body>
+</html>
