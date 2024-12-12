@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Kit Transue" />
+  <title>Second Normal Form</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">
+
+html {
+font-size: 100%;
+overflow-y: scroll;
+-webkit-text-size-adjust: 100%;
+-ms-text-size-adjust: 100%;
+}
+body {
+color: #444;
+font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+font-size: 12px;
+line-height: 1.7;
+padding: 1em;
+margin: auto;
+max-width: 42em;
+background: #fefefe;
+}
+a {
+color: #0645ad;
+text-decoration: none;
+}
+a:visited {
+color: #0b0080;
+}
+a:hover {
+color: #06e;
+}
+a:active {
+color: #faa700;
+}
+a:focus {
+outline: thin dotted;
+}
+*::-moz-selection {
+background: rgba(255, 255, 0, 0.3);
+color: #000;
+}
+*::selection {
+background: rgba(255, 255, 0, 0.3);
+color: #000;
+}
+a::-moz-selection {
+background: rgba(255, 255, 0, 0.3);
+color: #0645ad;
+}
+a::selection {
+background: rgba(255, 255, 0, 0.3);
+color: #0645ad;
+}
+p {
+margin: 1em 0;
+}
+img {
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+color: #111;
+line-height: 125%;
+margin-top: 2em;
+font-weight: normal;
+}
+h4, h5, h6 {
+font-weight: bold;
+}
+h1 {
+font-size: 2.5em;
+}
+h2 {
+font-size: 2em;
+}
+h3 {
+font-size: 1.5em;
+}
+h4 {
+font-size: 1.2em;
+}
+h5 {
+font-size: 1em;
+}
+h6 {
+font-size: 0.9em;
+}
+blockquote {
+color: #666666;
+margin: 0;
+padding-left: 3em;
+border-left: 0.5em #EEE solid;
+}
+hr {
+display: block;
+height: 2px;
+border: 0;
+border-top: 1px solid #aaa;
+border-bottom: 1px solid #eee;
+margin: 1em 0;
+padding: 0;
+}
+pre, code, kbd, samp {
+color: #000;
+font-family: monospace, monospace;
+_font-family: 'courier new', monospace;
+font-size: 0.98em;
+}
+pre {
+white-space: pre;
+white-space: pre-wrap;
+word-wrap: break-word;
+}
+b, strong {
+font-weight: bold;
+}
+dfn {
+font-style: italic;
+}
+ins {
+background: #ff9;
+color: #000;
+text-decoration: none;
+}
+mark {
+background: #ff0;
+color: #000;
+font-style: italic;
+font-weight: bold;
+}
+sub, sup {
+font-size: 75%;
+line-height: 0;
+position: relative;
+vertical-align: baseline;
+}
+sup {
+top: -0.5em;
+}
+sub {
+bottom: -0.25em;
+}
+ul, ol {
+margin: 1em 0;
+padding: 0 0 0 2em;
+}
+li p:last-child {
+margin-bottom: 0;
+}
+ul ul, ol ol {
+margin: .3em 0;
+}
+dl {
+margin-bottom: 1em;
+}
+dt {
+font-weight: bold;
+margin-bottom: .8em;
+}
+dd {
+margin: 0 0 .8em 2em;
+}
+dd:last-child {
+margin-bottom: 0;
+}
+img {
+border: 0;
+-ms-interpolation-mode: bicubic;
+vertical-align: middle;
+}
+figure {
+display: block;
+text-align: center;
+margin: 1em 0;
+}
+figure img {
+border: none;
+margin: 0 auto;
+}
+figcaption {
+font-size: 0.8em;
+font-style: italic;
+margin: 0 0 .8em;
+}
+table {
+margin-bottom: 2em;
+border-bottom: 1px solid #ddd;
+border-right: 1px solid #ddd;
+border-spacing: 0;
+border-collapse: collapse;
+}
+table th {
+padding: .2em 1em;
+background-color: #eee;
+border-top: 1px solid #ddd;
+border-left: 1px solid #ddd;
+}
+table td {
+padding: .2em 1em;
+border-top: 1px solid #ddd;
+border-left: 1px solid #ddd;
+vertical-align: top;
+}
+.author {
+font-size: 1.2em;
+text-align: center;
+}
+@media only screen and (min-width: 480px) {
+body {
+font-size: 14px;
+}
+}
+@media only screen and (min-width: 768px) {
+body {
+font-size: 16px;
+}
+}
+@media print {
+* {
+background: transparent !important;
+color: black !important;
+filter: none !important;
+-ms-filter: none !important;
+}
+body {
+font-size: 12pt;
+max-width: 100%;
+}
+a, a:visited {
+text-decoration: underline;
+}
+hr {
+height: 1px;
+border: 0;
+border-bottom: 1px solid black;
+}
+a[href]:after {
+content: " (" attr(href) ")";
+}
+abbr[title]:after {
+content: " (" attr(title) ")";
+}
+.ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+content: "";
+}
+pre, blockquote {
+border: 1px solid #999;
+padding-right: 1em;
+page-break-inside: avoid;
+}
+tr, img {
+page-break-inside: avoid;
+}
+img {
+max-width: 100% !important;
+}
+@page :left {
+margin: 15mm 20mm 15mm 10mm;
+}
+@page :right {
+margin: 15mm 10mm 15mm 20mm;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3 {
+page-break-after: avoid;
+}
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Second Normal Form</h1>
+<p class="author">Kit Transue</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#second-normal-form" id="toc-second-normal-form">Second
+Normal Form</a>
+<ul>
+<li><a href="#note-on-second-and-third-normal-forms" id="toc-note-on-second-and-third-normal-forms">Note on Second and Third
+Normal Forms</a></li>
+<li><a href="#formal-terms" id="toc-formal-terms">Formal Terms</a>
+<ul>
+<li><a href="#formal-definition-of-2nf" id="toc-formal-definition-of-2nf">Formal Definition of 2NF</a></li>
+<li><a href="#functionally-dependent" id="toc-functionally-dependent">Functionally Dependent</a></li>
+<li><a href="#candidate-key" id="toc-candidate-key">Candidate
+Key</a></li>
+<li><a href="#partproper-subset" id="toc-partproper-subset">Part/Proper
+Subset</a></li>
+<li><a href="#non-prime-attribute" id="toc-non-prime-attribute">Non-Prime Attribute</a></li>
+<li><a href="#putting-it-together" id="toc-putting-it-together">Putting
+it together</a></li>
+</ul></li>
+<li><a href="#second-normal-form-1" id="toc-second-normal-form-1">Second
+Normal Form</a>
+<ul>
+<li><a href="#example-students" id="toc-example-students">Example:
+students</a></li>
+</ul></li>
+<li><a href="#in-practice" id="toc-in-practice">In Practice</a>
+<ul>
+<li><a href="#fixing-2nf-and-3nf-violations" id="toc-fixing-2nf-and-3nf-violations">Fixing 2NF and 3NF
+Violations</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="second-normal-form">Second Normal Form</h1>
+<h2 id="note-on-second-and-third-normal-forms">Note on Second and Third
+Normal Forms</h2>
+<p>Where First Normal Form is concerned mainly about the integrity of
+the table format (that is: that entries are filled in; that columns are
+about the same attribute), Second and Third Normal Forms start to look
+at signs that a table has combined two concepts in a way that would be
+healthier if they were separated into different entities.</p>
+<p>Both Second and Third Normal Forms ask the designer to examine
+attributes and confirm they describe whatever is identified by the full
+key: that is, that the attributes help describe the row and not
+inadvertently something else.</p>
+<h2 id="formal-terms">Formal Terms</h2>
+<p>The formal definition of 2NF is widely-quoted, and its terms have
+become part of the way people talk about database design.</p>
+<p>In particular, the concept of <strong>“functionally
+dependent”</strong> is important and worth remembering by name.</p>
+<p>The other parts of the definition play a less important role.</p>
+<p>All are explained in this section.</p>
+<h3 id="formal-definition-of-2nf">Formal Definition of 2NF</h3>
+<p>“A 1NF table is in 2NF if and only if none of its non-prime
+attributes are functionally dependent on a part (proper subset) of a
+candidate key.” –E.F.Codd</p>
+<h3 id="functionally-dependent">Functionally Dependent</h3>
+<h4 id="functions-and-tables">Functions and tables</h4>
+<p>A function is something that (1) takes values as input, (2) produces
+results, and (3) always produces the same result if given the same
+inputs.</p>
+<p>The “something” might be a program, algorithm, math equation, or even
+an oracle or black box. Notably, it can be a lookup table, which is
+basically what the tables in an RDBMS are.</p>
+<p>A function written in code:</p>
+<pre><code>func shouldWeEat(amIHungry: Bool, areYouHungry: Bool) -&gt; Bool {
+   if amIHungry &amp;&amp; areYouHungry {
+       return true
+   }
+   return false
+}</code></pre>
+<p>The same function expressed as a lookup table:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>I’m hungry</th>
+<th>I’m not hungry</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>you’re hungry</td>
+<td>Let’s eat!</td>
+<td>not now</td>
+</tr>
+<tr class="even">
+<td>you’re not hungry</td>
+<td>not now</td>
+<td>not now</td>
+</tr>
+</tbody>
+</table>
+<p>Which can also be written in database table style:</p>
+<table>
+<thead>
+<tr class="header">
+<th>My feeling</th>
+<th>Your feeling</th>
+<th>Plan</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>hungry</td>
+<td>not hungry</td>
+<td>eat later</td>
+</tr>
+<tr class="even">
+<td>hungry</td>
+<td>hungry</td>
+<td>eat now</td>
+</tr>
+<tr class="odd">
+<td>not hungry</td>
+<td>not hungry</td>
+<td>eat later</td>
+</tr>
+<tr class="even">
+<td>not hungry</td>
+<td>hungry</td>
+<td>eat later</td>
+</tr>
+</tbody>
+</table>
+<h4 id="dependency">Dependency</h4>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>I’m hungry</th>
+<th>I’m not hungry</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>you’re hungry</td>
+<td>Let’s eat!</td>
+<td>not now</td>
+</tr>
+<tr class="even">
+<td>you’re not hungry</td>
+<td>not now</td>
+<td>not now</td>
+</tr>
+</tbody>
+</table>
+<p>In this function, the result can depend on both of the inputs. If I’m
+hungry, whether we eat depends on if you are hungry. If you’re hungry,
+whether we eat depends on if I’m hungry. The function depends on both
+our feelings. <strong>It is “functional dependent” on the inputs “my
+hunger” and “your hunger”.</strong></p>
+<h4 id="non-dependency">Non-Dependency</h4>
+<p>A selfish person’s decision-making might work differently:</p>
+<pre><code>func shouldWeEat(amIHungry: Bool, areYouHungry: Bool) -&gt; Bool {
+    return amIHungry
+}</code></pre>
+<p>As a lookup table:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>I’m hungry</th>
+<th>I’m not hungry</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>you’re hungry</td>
+<td>Let’s eat!</td>
+<td>not now</td>
+</tr>
+<tr class="even">
+<td>you’re not hungry</td>
+<td>Let’s eat!</td>
+<td>not now</td>
+</tr>
+</tbody>
+</table>
+<p>This is still a function: it produces a repeatable answer when given
+repeated inputs. It is even a function of two inputs: it does ask you
+how you’re feeling.</p>
+<p>But: it doesn’t <em>care</em> how you’re feeling. Whatever you say
+doesn’t ever change the function’s output.</p>
+<p>This selfish table is <strong>not functionally dependent on “your
+hunger”</strong>. All you need to know to fill in the table is the value
+of “I’m hungry.”</p>
+<h3 id="candidate-key">Candidate Key</h3>
+<p>A “candidate key” is any attribute or combination of attributes that
+could function as a key for the table.</p>
+<p>A person table of people might use a surrogate key like a UUID to
+uniquely identify each person, but they might also be uniquely
+identified by (firstname, lastname, and date of birth).</p>
+<p>Remember that candidate keys might be composite.</p>
+<p>The 2NF definition uses “candidate key” to make sure you consider the
+different ways in which the “what is this row about” question can be
+answered. If you are using a surrogate key, it reminds you to to look
+for a natural key.</p>
+<!--
+A composite natural key can suggest a classification of the entity
+-->
+<h3 id="partproper-subset">Part/Proper Subset</h3>
+<p>A “part of” is formed by dropping something, leaving a partial bit
+remaining.</p>
+<p>The “proper subset” means the “something” you drop isn’t “nothing”
+and that it isn’t “everything.”</p>
+<p>In the context of keys: the “part of a key” has to be smaller than
+the original key and still has to be able to carry meaning.</p>
+<p>For part of the key to be dropped, the key must be composite. The
+“something” that is removed is one (or more) of the attributes that
+contribute to a (candidate) composite key.</p>
+<h3 id="non-prime-attribute">Non-Prime Attribute</h3>
+<p>An attribute that isn’t part of a candidate key.</p>
+<p>A non-prime attribute may help describe an entity, but is not part of
+its identity.</p>
+<h3 id="putting-it-together">Putting it together</h3>
+<p>“A 1NF table is in 2NF if and only if none of its non-prime
+attributes are functionally dependent on a part (proper subset) of a
+candidate key.” –E.F.Codd</p>
+<p>No attribute that is supposed to describe an element (“non-prime
+attribute”) should turn out to describe (be “functionally dependent on”)
+an aspect that is only a part of the entity’s identity (“subset of a
+candidate key”).</p>
+<h2 id="second-normal-form-1">Second Normal Form</h2>
+<p>Every attribute in a table must help describe the particularly
+identified entity. Specifically: if the entity is identified by a
+composite key, then all parts of that key have to be needed to know what
+value should be given to an attribute. (If knowing only part of the key
+tells you what value an attribute should have, then the value is about
+that part of the key, not about the entity itself.)</p>
+<p>2NF is <em>only</em> about entities that have composite keys. The
+composite key doesn’t have to be the primary key; it matters if there is
+a composite that might work as a primary key. The sub-key is a way of
+grouping elements. 2NF looks for attributes that are common to the
+groups. If there aren’t groups, there isn’t a risk that an attribute is
+actually about the group.</p>
+<h3 id="example-students">Example: students</h3>
+<p>Consider the “enrollment” entity linking students and courses, to
+which I propose attaching GPA, grade, and meeting time:</p>
+<svg id="svg_a90f7914665fd3aa93eb" width="119pt" height="156pt" viewBox="0.00 0.00 119.25 156.00">
+<g id="svg_a90f7914665fd3aa93eb_graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 152)">
+<title>G</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-152 115.25,-152 115.25,4 -4,4"></polygon>
+<!-- EntitityPrototype -->
+<g id="svg_a90f7914665fd3aa93eb_node1" class="node">
+<title>EntitityPrototype</title>
+<polygon fill="none" stroke="black" points="0,-0.5 0,-147.5 111.25,-147.5 111.25,-0.5 0,-0.5"></polygon>
+<text text-anchor="middle" x="55.62" y="-130.2" font-family="Times,serif" font-size="14.00">enrollment</text>
+<polyline fill="none" stroke="black" points="0,-123 111.25,-123"></polyline>
+<text text-anchor="middle" x="55.62" y="-105.7" font-family="Times,serif" font-size="14.00">student</text>
+<polyline fill="none" stroke="black" points="0,-98.5 111.25,-98.5"></polyline>
+<text text-anchor="middle" x="55.62" y="-81.2" font-family="Times,serif" font-size="14.00">course</text>
+<polyline fill="none" stroke="black" points="0,-74 111.25,-74"></polyline>
+<text text-anchor="middle" x="55.62" y="-56.7" font-family="Times,serif" font-size="14.00">grade</text>
+<polyline fill="none" stroke="black" points="0,-49.5 111.25,-49.5"></polyline>
+<text text-anchor="middle" x="55.62" y="-32.2" font-family="Times,serif" font-size="14.00">meeting schedule</text>
+<polyline fill="none" stroke="black" points="0,-25 111.25,-25"></polyline>
+<text text-anchor="middle" x="55.62" y="-7.7" font-family="Times,serif" font-size="14.00">GPA</text>
+</g>
+</g>
+</svg>
+<p>The table of enrollments and grades might look like this:</p>
+<table>
+<thead>
+<tr class="header">
+<th>student</th>
+<th>course</th>
+<th>grade</th>
+<th>meets</th>
+<th>GPA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>lora</td>
+<td>IT-120</td>
+<td>4.0</td>
+<td>TWR 8a-11a</td>
+<td>3.9</td>
+</tr>
+<tr class="even">
+<td>lora</td>
+<td>IT-200</td>
+<td>3.8</td>
+<td>TR 2p-3p</td>
+<td>3.9</td>
+</tr>
+<tr class="odd">
+<td>lora</td>
+<td>IT-160</td>
+<td>4.0</td>
+<td>F 8a-11a</td>
+<td>3.9</td>
+</tr>
+<tr class="even">
+<td>pero</td>
+<td>IT-120</td>
+<td>3.8</td>
+<td>TWR 8a-11a</td>
+<td>3.5</td>
+</tr>
+<tr class="odd">
+<td>pero</td>
+<td>IT-160</td>
+<td>3.2</td>
+<td>F 8a-11a</td>
+<td>3.5</td>
+</tr>
+<tr class="even">
+<td>kit</td>
+<td>IT-200</td>
+<td>3.0</td>
+<td>TR 2p-3pp</td>
+<td>3.2</td>
+</tr>
+<tr class="odd">
+<td>kit</td>
+<td>IT-160</td>
+<td>2.8</td>
+<td>F 8a-11a</td>
+<td>3.2</td>
+</tr>
+<tr class="even">
+<td>sudha</td>
+<td>IT-120</td>
+<td>3.7</td>
+<td>TWR 8a-11a</td>
+<td>3.8</td>
+</tr>
+<tr class="odd">
+<td>sudha</td>
+<td>IT-200</td>
+<td>3.9</td>
+<td>TR 2p-3p</td>
+<td>3.8</td>
+</tr>
+<tr class="even">
+<td>sudha</td>
+<td>IT-300</td>
+<td>4.0</td>
+<td>F 1p-4p</td>
+<td>3.8</td>
+</tr>
+</tbody>
+</table>
+<p>Reminder: the primary key for enrollment is (student, course).</p>
+<p>Because (student, course) is a composite key (thus: unique), we can
+organize a view using them, and look at each of the non-key attributes
+to see how they fit with 2NF.</p>
+<p>In the tables that follow, it is OK to ignore the holes. In a
+many-to-many relation, nothing says you <em>must</em> have everything
+connected.to everything else.</p>
+<h4 id="gpa">GPA</h4>
+<table>
+<thead>
+<tr class="header">
+<th>GPA</th>
+<th>lora</th>
+<th>pero</th>
+<th>kit</th>
+<th>sudha</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>IT-120</td>
+<td>3.9</td>
+<td>3.5</td>
+<td></td>
+<td>3.8</td>
+</tr>
+<tr class="even">
+<td>IT-160</td>
+<td>3.9</td>
+<td>3.5</td>
+<td>3.2</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>IT-200</td>
+<td>3.9</td>
+<td></td>
+<td>3.2</td>
+<td>3.8</td>
+</tr>
+<tr class="even">
+<td>IT-300</td>
+<td></td>
+<td></td>
+<td></td>
+<td>3.8</td>
+</tr>
+</tbody>
+</table>
+<p>Notice how the GPAs in any column are all the same. This is not an
+accident: each student has only one GPA at a time. GPA describes the
+student and varying the course doesn’t matter.</p>
+<p>Putting GPA in the enrollment table violates 2NF: it is dependent on
+only the student part of the composite (student+course) key.</p>
+<h4 id="course-grade">Course Grade</h4>
+<table>
+<thead>
+<tr class="header">
+<th>grade</th>
+<th>lora</th>
+<th>pero</th>
+<th>kit</th>
+<th>sudha</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>IT-120</td>
+<td>4.0</td>
+<td>3.8</td>
+<td></td>
+<td>3.7</td>
+</tr>
+<tr class="even">
+<td>IT-160</td>
+<td>4.0</td>
+<td>3.2</td>
+<td>2.8</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>IT-200</td>
+<td>3.8</td>
+<td></td>
+<td>3.0</td>
+<td>3.9</td>
+</tr>
+<tr class="even">
+<td>IT-300</td>
+<td></td>
+<td></td>
+<td></td>
+<td>4.0</td>
+</tr>
+</tbody>
+</table>
+<p>Grades vary by columns and by rows. You need to know both which
+student and which course to look up what grade someone got.</p>
+<p>Having grade in this table is compatible with 2NF.</p>
+<h4 id="meeting-time">Meeting time</h4>
+<table>
+<thead>
+<tr class="header">
+<th>meets</th>
+<th>lora</th>
+<th>pero</th>
+<th>kit</th>
+<th>sudha</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>IT-120</td>
+<td>TWR 8a-11a</td>
+<td>TWR 8a-11a</td>
+<td></td>
+<td>TWR 8a-11a</td>
+</tr>
+<tr class="even">
+<td>IT-160</td>
+<td>F 8a-11a</td>
+<td>F 8a-11a</td>
+<td>F 8a-11a</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>IT-200</td>
+<td>TR 2p-3p</td>
+<td></td>
+<td>TR 2p-3p</td>
+<td>TR 2p-3p</td>
+</tr>
+<tr class="even">
+<td>IT-300</td>
+<td></td>
+<td></td>
+<td></td>
+<td>F 1p-4p</td>
+</tr>
+</tbody>
+</table>
+<p>In the “meets” case, if you know only the course, you know the
+meeting time. It’s the same no matter what students are attending.
+Again, this isn’t just coincidence: the class is set up to have a common
+meeting time.</p>
+<p>Putting the course meeting time into the enrollments table violates
+2NF: the meeting time is not customized for each student.</p>
+<h2 id="in-practice">In Practice</h2>
+<p>Second Normal Form seeks to clarify what the table is about (the
+<em>whole</em> key), and then to assure that the non-key attributes are
+being used to describe the entity and not just one of its
+components.</p>
+<p>When a violation is discovered, the sub-part of the key that the
+attribute is actually dependent can be used to identify a different (if
+there’s already a table for it) or new entity. And the dependent
+attribute can be moved into that entity.</p>
+<h3 id="fixing-2nf-and-3nf-violations">Fixing 2NF and 3NF
+Violations</h3>
+<p>With both 2NF and 3NF, the violation identifies that the entity is
+trying to do too much, and that it has another entity inside it.</p>
+<p>To fix: you need to extract the inside entity and make it its own
+entity. (Sometimes the design already has that entity: if you find two
+entities have the same keys, they are about the same subject and might
+be combined!)</p>
+<p>When you extract/factor/move/lift the embedded entity, you still need
+to remember it is associated with the original. You use the relational
+model to connect the two entities. This was said really well:</p>
+<p>“It follows that this information should be moved into a separate
+table (Studio), and only a foreign key retained.”</p>
+<p>–Samuel O’Neal; Winter 2023</p>
+<!--
+FIXME: re-introduce this, but re-write so it doesn't talk about 3NF.
+
+# Second Normal Form
+
+Violations of Second Normal Form occur when (1) there is a composite key,
+and (2) an attribute applies not to the aggregate key as a whole, but is
+really describing just one of some of the components of the key.
+
+## Example
+
+This is an extract of [WA Census Population and
+Housing](https://data.wa.gov/Demographics/WAOFM-Census-Population-and-Housing-2000-and-2010/tx5i-i2ja),
+after removing some columns and adapting it to meet 1NF requirements:
+
+```svg-diagram
+wa-census
+```
+
+### What is this table about?
+
+What is the subject of each row? The primary key? What are the
+attributes ('<code>population</code>', for example) describing?
+
+This table has a composite key, made up of **both** year and city.
+The data are about "what was Tacoma like in 2000," for example.
+
+### Asking the "does the attribute describe the subject?"
+
+As in 3NF, 2NF asks if attributes describe the subject.
+
+Like above, <code>population</code>, <code>housingUnits</code>, <code>vacant</code> all describe the
+condition of the city in a given year. Good.
+
+'<code>county</code>': does describe the city, but doesn't seem to vary by year.
+So it's about the key, but only **part** of the key. This is a
+violation of Second Normal Form.
+
+Question: what about '<code>landArea</code>'?
+
+### Mitigation
+
+As in 3NF violations, 2NF violations suggest there is another entity
+that should be separated out:
+
+```svg-diagram
+wa-census2nf
+```
+
+Analysis of this design suggests it meets requirements through
+Third Normal Form.
+-->
+</body>
+</html>
