@@ -22,8 +22,7 @@
 # The above questions are required.
 
 # Understanding the Problem #
-- The provided `Playlist` table is a clear violation of First Normal Form (1NF), as it contains repeating groups of song information. This leads to data redundancy and potential misinformation paths. 
-
+- The provided `Playlist` table is a clear violation of First Normal Form (1NF), as it contains repeating groups of song information. This leads to data redundancy and potential misinformation paths.
 	
 ## 1NF Violation:## The `Playlist` entity contains repeating groups of song information.
 
