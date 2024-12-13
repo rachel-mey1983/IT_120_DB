@@ -1,6 +1,0 @@
-The answer to “what is a natural key for Track?
-answers to questions about Playlist
-for each change you have made:
-what entity/attribute(s) is a problem?
-what normal form are you fixing?
-
