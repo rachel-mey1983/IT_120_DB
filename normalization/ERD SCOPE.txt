@@ -1,0 +1,75 @@
+## INSTRUCTIONS ## 
+
+Food Co-Op Scenario
+(Consider this if you do not want to choose your own scenario.)
+
+Using the materials from the Co-op scenario (Interview, Supporting Documents, plus your Statement of Scope and the feedback from your exercise), create a partial ERD for the Co-op database that can help make one of the supporting documents or can help solve one of the issues raised by Lynn in the interview.
+
+Build:
+
+An ERD
+with a focus on Produce/Product
+with at least three (and probably no more than five) related Entities
+To identify Entities that might be related to Produce, think about what the record-keeping and queries the Co-op expressed concerns about.
+
+With the co-op example, for the statement of scope: write a short explanation of the problem you chose to focus on.
+
+## 
+
+
+ERD SCOPE
+
+Explanation of the ERD
+
+This ERD establishes a clear structure for tracking product information. By linking products to suppliers and categories, the co-op can easily identify the source of products, their classification, and their shelf life. This information is essential for effective inventory management, quality control, and regulatory compliance.
+
+
+The primary objective of this project is to develop a comprehensive database system for the co-op, focusing specifically on products and its related entities; 'Supplier' and 'Category'. This system will streamline various operational aspects, including product inventory management, information tracking, sales record-keeping, and supplier relationship management. The database will encompass detailed product information, narrowing down to the origin, product description, supplier, purchase price, quantity, expiration date, and processing method. This information is crucial for maintaining food safety and quality standards, as well as for complying with regulations. Supplier information, including name, contact details, product offerings, and payment terms, will also be maintained. This database will not include human resources or payroll functions, which are outsourced by the co-op. 
+
+This ERD will help the co-op to:
+
+# Track product origin: By linking products to suppliers, the co-op can identify the source of each product and monitor supplier performance.
+# Manage inventory effectively: By tracking product quantities, expiration dates, and categories, the co-op can optimize inventory levels and reduce food waste.
+# Ensure food safety: By tracking product processing methods and expiration dates, the co-op can minimize the risk of foodborne illness.
+# Make informed purchasing decisions: By analyzing sales data and supplier performance, the co-op can make informed decisions about future purchases.
+
+By implementing this ERD, the co-op can significantly improve its operational efficiency and ensure the safety and quality of its products. 
+
+
+## Understanding the Problem ##
+
+The Co-op is struggling to keep track of product information, particularly its origin, processing, and expiration date. This information is crucial for maintaining food safety and quality standards, as well as for complying with regulations. 
+
+## Proposed ERD Solution ##
+
+To address this issue, we propose an ERD focusing on the `Product` entity and its related entities: `Supplier` and `Category`.
+
+## Entity-Relationship Diagram/Graphical Representation (ERD) ##
+
+[Image of an ERD with the following entities and relationships?]
+
+**Entities:**
+
+* **Product:** 
+  * ProductID (Primary Key)
+  * ProductName
+  * Description
+  * PurchasePrice
+  * Quantity
+  * ExpirationDate
+  * CategoryID (Foreign Key)
+  * SupplierID (Foreign Key)
+* **Supplier:**
+  * SupplierID (Primary Key)
+  * SupplierName
+  * ContactInformation
+* **Category:**
+  * CategoryID (Primary Key)
+  * CategoryName
+
+**Relationships:**
+
+* **Product to Supplier:** A many-to-one relationship, indicating that multiple products can be supplied by the same supplier.
+* **Product to Category:** A many-to-one relationship, indicating that multiple products can belong to the same category.
+
+

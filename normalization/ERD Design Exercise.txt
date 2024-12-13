@@ -1,0 +1,144 @@
+ERD Design Exercise
+Create an ERD to document a database of your own design (or use the provided co-op example).
+
+Briefly describe what you have chosen to model.
+
+This should be in an area where you have knowledge. It should not be a “customer/order/shipment” problem: this is a standard pattern that is better implemented by QuickBooks, Etsy, Shopify, etc. There are some ideas and an option to use the food co-op listed at the end of this document.
+
+Requirements
+write a simple statement of scope
+produce an ERD using the conventions I’ve shown in class
+show relation lines
+take care with the line endings
+do not show row data: entities should only list their attributes (table column names)
+see rubric details
+minimum 4 Entities (suggest 5)
+minimum 3 FKs to build relations (3 OK)
+minimum 8 attributes that are descriptive (that is: are not surrogate keys or foreign keys) (suggest 10-12)
+submit
+design: by attached file (.drawio preferred; .pdf or a graphics image like .png or .jpg OK)
+description: comment in assignment, or .md (preferred), .txt, .rtf, .pdf, or .docx
+Commerce Restrictions/Exceptions
+In general: avoid the “customer/order/shipment” problem: this is a standard pattern that is better implemented by QuickBooks, Etsy, Shopify, etc.
+
+BUT: if you have an idea that fixes a shortcoming of commerce solutions like those above, you may make a commerce-like design if you show why your solution is better than pre-packaged solutions.
+
+If you do something commerce-related, the Customer entity and its standard fields will not count towards your design. Your work has to be an enhancement to this model.
+
+Rubric
+You may balance the following sections as you like up to the 70 points for the exercise, but no more than 26 points can come from any section. You should average 20 points per section, in the 15-25 points range.
+
+Entities (goal: 4-6 entities)
+
+Show and name an entity: 4 points
+PK: 1 point for identifying entity Primary Key
+PK: +2 points if you identify a compound natural key
+Relations (goal: 3+ relations)
+
+Draw a relation line: 2 points
+add the FK attribute: 2 points
+label the FK attribute “FK”: 1 point
+crow’s foot or “one” line ending: +1 point for each correct end
+Descriptive attributes (goal: 10 attributes)
+
+attribute that describes the entity: 2 points
+natural keys count
+surrogate keys do not count
+FKs are counted in Relations
+values should not appear in the design and do not count
+Statement of Scope:
+
+briefly (1-2 sentences) describe what you have chosen to model (10 points)
+Advice
+keep two documents: one with statement of scope and examples; the other the diagram
+if you see an attribute that is plural, you need to move that to a different table
+many-to-many relations will need a join table
+be very careful not to put “values” in your design
+in particular: categories are often values and not entities
+enumeration values are not attributes (but the enumeration type can be an entity)
+diagrams.net
+set your default line style
+make connections by dragging the blue arrow from PK to FK
+use the Entity Relation palette
+Sample Data
+One strength of the ERD is that it is concise. It does this by not showing cell contents (“values”). It is an abstraction of possible row values.
+
+Abstraction can be hard to achieve. One of the best ways to arrive at an abstraction is to identify a couple of examples (possibly extremes) and then look for what is common about them. The commonality is easier to see when real examples are placed side-by-side.
+
+It is OK to write these down–just don’t put them into the design. Enter them into your engineering notebook. Use them as sample test data. Keep them to show to others who have questions about your design.
+
+Examples can be an important step in making a design. But while the end design should make at table where your sample can find a row to be its home, the specific sample/row should not be shown in the design.
+
+Ideas
+analytics for a sport
+musicals and their productions
+mythical sea creatures: care and feeding; history
+catalog of contra dances: choreography; complexity; composer
+daycare facility: staffing; checklists; activities
+food co-op from Analysis exercise (see below)
+Food Co-Op Scenario
+(Consider this if you do not want to choose your own scenario.)
+
+Using the materials from the Co-op scenario (Interview, Supporting Documents, plus your Statement of Scope and the feedback from your exercise), create a partial ERD for the Co-op database that can help make one of the supporting documents or can help solve one of the issues raised by Lynn in the interview.
+
+Build:
+
+An ERD
+with a focus on Produce/Product
+with at least three (and probably no more than five) related Entities
+To identify Entities that might be related to Produce, think about what the record-keeping and queries the Co-op expressed concerns about.
+
+With the co-op example, for the statement of scope: write a short explanation of the problem you chose to focus on.
+
+```mermaid
+classDiagram
+    class User {
+        - userId
+        - username
+        - email
+        - password
+    }
+
+    class Post {
+        - postId
+        - title
+        - content
+        - timestamp
+        - userId
+    }
+
+    class Comment {
+        - commentId
+        - content
+        - timestamp
+        - postId
+        - userId
+    }
+
+    User "1" -- "*" Post : creates
+    Post "1" -- "*" Comment : has
+    User "1" -- "*" Comment : writes
+```
+
+**Explanation:**
+
+This ERD represents a simple social media platform:
+
+* **User:** Represents users of the platform.
+* **Post:** Represents posts created by users.
+* **Comment:** Represents comments on posts.
+
+**Relationships:**
+
+* **One-to-many:** A user can create many posts.
+* **One-to-many:** A post can have many comments.
+* **One-to-many:** A user can write many comments.
+
+**Note:** This is a basic ERD and can be expanded upon to include features like likes, shares, friend lists, etc.
+ 
+**To visualize this ERD:**
+
+1. **Use a Diagram Tool:** You can use tools like draw.io, Lucidchart, or even Microsoft Visio to create a visual representation.
+2. **Use a Code-Based Approach:** Tools like Mermaid or PlantUML allow you to define the ERD using a specific syntax, which can then be rendered into a visual diagram.
+
+By following these steps and using the appropriate tools, you can effectively create and visualize ERDs to represent your database designs.
