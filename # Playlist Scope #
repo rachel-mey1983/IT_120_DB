@@ -67,6 +67,7 @@
 - User-defined order: Implemented using the `PlaylistOrder` attribute in the `PlaylistTrack` entity.
 - Duplicate tracks in a playlist: Prevented by the unique combination of `PlaylistID` and `TrackID` in the `PlaylistTrack` entity.
 
-### Additional Considerations
+# Additional Considerations #
 
-- Performance: If performance is a concern, consider indexing frequently queried attributes (e.g., `PlaylistID`, `TrackID`)
+### Performance: If performance is a concern, consider indexing frequently queried attributes (e.g., `PlaylistID`, `TrackID`) ###
+
