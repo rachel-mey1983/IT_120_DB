@@ -1,0 +1,40 @@
+### 
+## Analysis questions
+## Please answer these questions before starting on your changes:
+
+# what attribute(s) form a natural key for Track? (A composite key is OK.)
+## playlist questions: 
+## what do you want the maximum number of songs/tracks in a playlist to be? 
+
+## do you want to let the user define an order to the playlist?
+## do you want the user to put the same track in one playlist more than once?
+# The above questions are required.
+
+# Understanding the Problem #
+- The provided `Playlist` table is a clear violation of First Normal Form (1NF), as it contains repeating groups of song information. This leads to data redundancy and potential misinformation paths. 
+
+	
+## 1NF Violation:## The `Playlist` entity contains repeating groups of song information.
+
+# Normalizing the Design #
+ - Create a new entity, `PlaylistTrack`, to represent the relationship between `Playlist` and `Track`.
+
+### Playlist Entity:
+  - Removed the redundant song attributes.
+  - Added a new attribute, `PlaylistOrder`, to allow users to define the order of songs in a playlist.
+
+### Track Entity:
+  - The natural key for `Track` is a composite key consisting of `UniqueID` and `AlbumID`.
+
+### PlaylistTrack Entity:
+  - Represents the many-to-many relationship between `Playlist` and `Track`.
+  - Contains foreign keys to both `Playlist` and `Track`.
+  - Includes a `TrackOrder` attribute to specify the order of tracks within a playlist.
+
+### Addressing Analysis Questions:
+  - Maximum number of songs in a playlist: This can be controlled through database constraints.
+  - User-defined order: Implemented using the `PlaylistOrder` attribute in the `PlaylistTrack` entity.
+  - Duplicate tracks in a playlist: Prevented by the unique combination of `PlaylistID` and `TrackID` in the `PlaylistTrack` entity.
+
+### Additional Considerations:
+  - Performance: If performance is a concern, consider indexing frequently queried attributes (e.g., `PlaylistID`, `TrackID`)
